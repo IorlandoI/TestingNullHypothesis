@@ -1,0 +1,52 @@
+---
+title: "Null Hypothesis"
+author: "Orlando Malanco"
+date: "12/7/2021"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+Step 1: Model $$X \sim Bernoulli(\omega)$$
+              $$Y \sim Bernoulli(\omega)$$
+
+
+Step 2:  Hypotheses   $$H_0: \omega_x = \omega_y$$
+$$H_A: \omega_x \neq \omega_y$$
+
+Step 3: Specify test statistic
+$$ z = \frac{\hat\omega_x-\hat\omega_y}{\sqrt{\frac{\hat\omega_x(1-\hat\omega_x)}{n_x}+\frac{\hat\omega_y(1-\hat\omega_y)}{n_y}}}$$
+
+step4: Evaluate a test statistic
+```{r}
+wx = 171/540
+wy = 206/560
+nx = 540
+ny = 560
+z = (wx - wy)/(sqrt(((wx * (1-wx))/nx) + ((wy * (1-wy))/ny)))
+```
+
+
+Step 5:  Significance level is $\alpha=0.05$
+
+step 6: Rejection Region
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+x <- seq(-5, 5, length.out = 1000)
+pdf <- dnorm(x, mean = 0, sd = 1)
+theoretical <- data.frame(x = x, pdf = pdf)
+library(ggplot2)
+ggplot() + geom_polygon(data = theoretical, mapping = aes(x = x, y = pdf), 
+                        color = "grey", fill = "grey") + 
+ geom_area(data = subset(theoretical, x >= 1.645), mapping = aes(x = x, y = pdf),  
+            color = "red", fill = "red") +  
+  geom_area(data = subset(theoretical, x <= -1.645), 
+            mapping = aes(x = x, y = pdf),  
+            color = "red", fill = "red") + 
+  labs(x = "z-statistic", y = "Probability density") +  
+  geom_vline(xintercept = z) + ggtitle("Rejection Region Plot")
+```
+step 7: $H_0$ is rejected the line landed in the rejection region
