@@ -31,7 +31,7 @@ z = (wx - wy)/(sqrt(((wx * (1-wx))/nx) + ((wy * (1-wy))/ny)))
 ```
 
 
-Step 5:  Significance level is $\alpha=0.05$
+Step 5:  Significance level is $\alpha=0.10$
 
 step 6: Rejection Region
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
